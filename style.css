@@ -5,16 +5,22 @@
   padding: 0;
   box-sizing: border-box;
   font-family: 'Poppins';
-  color: var(--main-green);
+  color: var(--white);
+  transition: all 0.2s ease;
 }
 
 :root {
-  --black-green: #011502;
-  --dark-green: #104F55;
-  --oak-green: #32746D;
-  --main-green: #9EC5AB;
+  --black-blue: #000f25;
+  --dark-blue: #001D4A;
+  --blue: #27476E;
+  --light-blue: #0089be;
+  --yellow: #ECA400;
 
-  --white: #ececec;
+  --white: #EAF8BF;
+}
+
+ion-icon {
+  font-size: 18px;
 }
 
 body {
@@ -23,23 +29,85 @@ body {
   justify-content: center;
   flex-direction: column;
   width: 100vw;
-  background: var(--black-green);
+  padding: 1rem;
+  background: var(--black-blue);
 }
 
 input {
+  padding: .8rem;
+  border: none;
+  border-radius: 6px;
+  color: var(--black-blue);
+  outline: solid 2px var(--blue);
+  background: var(--white);
+}
+
+input:focus {
+  outline: solid 2px var(--light-blue);
+  box-shadow: 0px 6px 0px 0px var(--light-blue);
+}
+
+
+button {
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
-  padding: .8rem;
+  padding: 1rem;
+  gap: .5rem;
   border: none;
-  outline: solid 2px var(--oak-green);
   border-radius: 6px;
+  background: var(--light-blue);
+}
+button:hover {
+  background: transparent;
+  outline: solid 2px var(--light-blue);
 }
 
-.card-addTask {
+.card-addTask {  
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
   width: 100%;
+  gap: 1rem;
   padding: 1rem;
   border-radius: 12px;
-  background: var(--dark-green);
+  background: var(--dark-blue);
+}
+.card-addTask input {
+  width: 100%;
+}
+
+.card-tasks {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+}
+
+
+.list-task {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  padding: 1rem;
+  gap: 1rem;
+  border-radius: 12px;
+  background: var(--blue);
+}
+.list-task:hover {
+  outline: solid 2px var(--light-blue);
+  box-shadow: 0px 6px 0px 0px var(--light-blue);
+}
+.list-task.checked {
+  filter: brightness(0.5);
+}
+
+.list-task button {
+  position: absolute;
+  padding: .5rem;
+  right: 1rem;
 }

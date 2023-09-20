@@ -1,6 +1,37 @@
-const checkbox = document.getElementById("chk-task");
+// var arrayTasks = [
+//   {
+//     nameTask = "Fazer Café",
+//     isTaksComplete = false
+//   },
+//   {
+//     nameTask = "Arrumar o Quarto",
+//     isTaksComplete = false
+//   }
+// ]
+
+
+const cardTasks = document.getElementById("card-tasks");
+const inputTask = document.getElementById("add-input");
+
+function addNewTask() {
+  if (inputTask.value == "") {
+    alert("Insira uma tarefa válida!")
+  } else {
+    alert("Tarefa Adicionada com sucesso!")
+      cardTasks.innerHTML += `
+        <label class="list-task" for="chk-task">
+          <input type="checkbox" id="chk-task">
+          <p>${inputTask.value}</p>
+          <button onclick="remTask()"><ion-icon name="trash"></ion-icon>REMOVER</button>
+        </label>
+      `
+    }
+
+}
+
+
+const checkbox = document.querySelector(".chk-task");
 const listTask = document.querySelector(".list-task");
-const inputTask = document.getElementById("add-input").value;
 
 function toggleTaskBackground() {
   if (checkbox.checked) {
@@ -10,17 +41,3 @@ function toggleTaskBackground() {
   }
 }
 checkbox.addEventListener("change", toggleTaskBackground);
-
-var arrayTasks = [
-  { 
-    nameTask = "Fazer Café",
-    isTaskComplete = false
-  }
-
-]
-
-function addNewTask() {
-  listTask.innerHTML += `
-  <p>${arrayTasks.nameTask}</p>
-  `
-}

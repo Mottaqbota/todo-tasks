@@ -1,84 +1,77 @@
-const cardTasks = document.querySelector(".card-tasks");
 const inputTask = document.getElementById("add-input");
-var arrayTasks = [
-    getStorageTasks
-] 
-
-var getStorageTasks = JSON.parse(localStorage.getItem('Tasks'));
-
-// if (localStorage.getItem('Tasks') !== null) {
-//     localStorage.setItem('Tasks', "a")
-// } else {
-//     return;
-// }
-
+const cardTasks = document.querySelector(".card-tasks");
+var arrayTasks = [];
 
 function addNewTask() {
-  if (inputTask.value == "") {
-    alert("Insira uma tarefa válida!")
-  } else {
-    alert("Tarefa Adicionada com sucesso!")
-    cardTasks.innerHTML += `
-    <div class="list-task">
-        <input type="checkbox" onclick="completeTask()">
-        <p>${inputTask.value}</p>
-        <button onclick="remTask(taskToRemove)"><ion-icon name="trash"></ion-icon>REMOVER</button>
-    </div>
-      `
+    if (inputTask.value == '') {
+        alert('Insira o nome de sua tarefa!');
+        return;
     }
-    arrayTasks.push(
-        {
-            nameTask: inputTask.value,
-            isTaskComplete: false
+
+    var newArrayTask = { nameTask: inputTask.value, isTaskComplete: false };
+    arrayTasks.push(newArrayTask);
+    inputTask.value = '';
+
+    var newTask = document.createElement('label');
+    newTask.classList.add('list-task');
+    newTask.innerHTML = `
+        <input type="checkbox">
+        <p>${newArrayTask.nameTask}</p>
+        <button onclick="remTask(this)"><ion-icon name="trash"></ion-icon>REMOVER</button>
+    `;
+    cardTasks.appendChild(newTask);
+
+    const checkbox = newTask.querySelector('input[type="checkbox"]');
+    checkbox.addEventListener('change', function () {
+        const taskName = newArrayTask.nameTask;
+        const task = arrayTasks.find(tsk => tsk.nameTask === taskName);
+
+        if (task) {
+            task.isTaskComplete = this.checked;
+            newTask.classList.toggle("checked")
         }
-    ) 
-    
+
+        console.log(arrayTasks);
+    });
+
+    updateLocalStorage();
+}
+
+inputTask.addEventListener('keyup', function(event) {
+    if (event.key === 'Enter') {
+        addNewTask();
+    }
+});
+
+
+function remTask(button) {
+    const taskName = button.parentElement.querySelector('p').textContent;
+    const taskIndex = arrayTasks.findIndex(tsk => tsk.nameTask === taskName);
+
+    if (taskIndex !== -1) {
+        button.parentElement.classList.add('delete');
+        setTimeout(() => {
+            arrayTasks.splice(taskIndex, 1);
+            button.parentElement.remove();
+            updateLocalStorage();
+        }, 500);
+        setTimeout(() => {
+            button.parentElement.classList.remove('delete');
+        }, 1000);
+    }
+}
+
+function updateLocalStorage() {
     var newArrayTasks = JSON.stringify(arrayTasks);
-
     localStorage.setItem('Tasks', newArrayTasks);
-
-    console.log(JSON.parse(localStorage.getItem('Tasks')));
+    console.log(arrayTasks);
 }
 
-function completeTask() {
-    if (arrayTasks.isTaskComplete == false) {
-        var resultado = arrayTasks.map(() => ({ isTaskComplete: true }));
-    } else {
-        var resultado = arrayTasks.map(() => ({ isTaskComplete: false }));
-        // arrayTasks.forEach(item => {
-        //     item.isTaskComplete = false;
-        // });
+var storedTasks = localStorage.getItem('Tasks');
+if (storedTasks) {
+    arrayTasks = JSON.parse(storedTasks);
+    for (let i = 0; i < arrayTasks.length; i++) {
+        addNewTask(arrayTasks[i]);
     }
-      
-    console.log(resultado)
 }
 
-
-
-function showTasks() {
-    for(let i = 0; i < arrayTasks.length; i++) {
-        cardTasks.innerHTML += `
-        <div class="list-task">
-            <input type="checkbox">
-            <p>${arrayTasks[i].nameTask}</p>
-            <button onclick="remTask(taskToRemove)"><ion-icon name="trash"></ion-icon>REMOVER</button>
-        </div>
-        `
-    }
-
-}   
-showTasks()
-
-// var getTasks = JSON.parse.localStorage.getItem('Tasks');
-
-// const checkbox = document.querySelector(".chk-task");
-// const listTask = document.querySelector(".list-task");
-
-// function toggleTaskBackground() {
-//   if (checkbox.checked) {
-//     listTask.classList.add("checked");
-//   } else {
-//     listTask.classList.remove("checked");
-//   }
-// }
-// checkbox.addEventListener("change", toggleTaskBackground);

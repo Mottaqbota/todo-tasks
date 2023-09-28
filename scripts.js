@@ -71,7 +71,29 @@ var storedTasks = localStorage.getItem('Tasks');
 if (storedTasks) {
     arrayTasks = JSON.parse(storedTasks);
     for (let i = 0; i < arrayTasks.length; i++) {
-        addNewTask(arrayTasks[i]);
+        
+        cardTasks.innerHTML += `
+        <label class="list-task">
+            <input type="checkbox">
+            <p>${arrayTasks[i].nameTask}</p>
+            <button onclick="remTask(this)"><ion-icon name="trash"></ion-icon>REMOVER</button>      
+        </label>
+        `;
     }
 }
 
+// function completeTask() {
+//     const checkbox = .querySelector('input[type="checkbox"]');
+//     checkbox.addEventListener('change', function () {
+//         const taskName = newArrayTask.nameTask;
+//         const task = arrayTasks.find(tsk => tsk.nameTask === taskName);
+
+//         if (task) {
+//             task.isTaskComplete = this.checked;
+//             .classList.toggle("checked")
+//         }
+
+//         console.log(arrayTasks);
+//     });
+
+// }
